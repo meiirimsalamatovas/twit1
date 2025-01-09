@@ -1,13 +1,21 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import SideMenu from "./components/SideMenu/SideMenu";
+import Home from "./components/Home/index";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const rootElement = document.getElementById("root");
+if (rootElement) {
+    ReactDOM.createRoot(rootElement).render(
+        <React.StrictMode>
+            <div style={{ display: "flex" }}>
 
+                <SideMenu />
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+                <Home />
+            </div>
+        </React.StrictMode>
+    );
+} else {
+    console.error("Root element not found");
+}

@@ -1,52 +1,90 @@
-import { COMMENTS, LIKES, RETWEETS, SHARE } from '../../assets/icons.tsx';
-import React from 'react';
+import { COMMENTS, LIKES, RETWEETS, SHARE, DELETE } from '../../assets/icons.tsx';
+import { useState } from 'react';
 
 
 interface TweetProps {
-  img: string;
-  authorName: string;
-  authorUsername: string;
-  content: string;
-  retweets: number;
-  replies: number;
-  likes: number;
+    tweet: {
+        id: string;
+        content: string;
+        img: string;
+        authorName: string;
+        authorUsername: string;
+        minutes?: number;
+        replies: number;
+        retweets: number;
+        likes: number;
+    };
+    deleteTweet: (id: string) => void;
 }
 
-const Tweet: React.FC<TweetProps> = ({ img, authorName, authorUsername, content, retweets, replies, likes }) => {
-  return (
-    <div className="mt-3 mx-3">
-      <p className="mx-5" style={{ fontSize: 13, fontWeight: '600' }}>
-        You might like! <span>See more</span>
-      </p>
-      <div className="d-flex">
-        <img src={img} style={{ width: 50, height: 50, borderRadius: 50 }} alt="author" />
-        <div className="mx-3">
-          <p>
-            {authorName} <span>{authorUsername}</span>
-          </p>
-          <p>{content}</p>
-        </div>
-      </div>
-      <div className="d-flex m-auto justify-content-between" style={{ width: '80%' }}>
-        <div className="d-flex">
-          <div style={{ width: 20, height: 20 }}>{COMMENTS}</div>
-          <p className="px-1">{replies}</p>
-        </div>
-        <div className="d-flex">
-          <div style={{ width: 20, height: 20 }}>{RETWEETS}</div>
-          <p className="px-1">{retweets}</p>
-        </div>
-        <div className="d-flex">
-          <div style={{ width: 20, height: 20 }}>{LIKES}</div>
-          <p className="px-1">{likes}</p>
-        </div>
-        <div className="d-flex">
-          <div style={{ width: 20, height: 20 }}>{SHARE}</div>
-          <p className="px-1">{replies}</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+export default function Tweet({ tweet, deleteTweet }: TweetProps) {
+    const [title] = useState(tweet.content);
 
-export default Tweet;
+    return (
+        <div className="mt-3 px-3" style={{ borderBottom: "2px solid whitesmoke" }}>
+            <p
+                className="mx-5 d-flex"
+                style={{ fontSize: 12, fontWeight: "600" }}
+            >
+                You might like!{" "}
+                <span style={{ color: "#1D9BF0" }}>See more</span>
+                <p>{tweet.minutes ? tweet.minutes : "Long time ago"}</p>
+            </p>
+
+            <div className="d-flex justify-content-between">
+                <div className="d-flex">
+                    <img
+                        src={tweet.img}
+                        alt="Tweet"
+                        style={{ width: 50, height: 50, borderRadius: 50 }}
+                    />
+                    <div className="mx-3">
+                        <p style={{ fontWeight: 600 }}>
+                            {tweet.authorName}{" "}
+                            <span style={{ color: "grey" }}>
+                                {tweet.authorUsername}
+                            </span>{" "}
+                        </p>
+                        <p>
+                            {title.length > 200
+                                ? title.slice(0, 200) + "..."
+                                : title}
+                        </p>
+                    </div>
+                </div>
+                <button
+                    onClick={() => deleteTweet(tweet.id)}
+                    style={{
+                        width: 35,
+                        height: 35,
+                        border: "none",
+                        backgroundColor: "transparent",
+                    }}
+                >
+                    {DELETE}
+                </button>
+            </div>
+
+            <div
+                className="d-flex m-auto justify-content-between"
+                style={{ width: "80%" }}
+            >
+                <div className="d-flex">
+                    <div style={{ width: 20, height: 20 }}>{COMMENTS}</div>
+                    <p className="px-1">{tweet.replies}</p>
+                </div>
+                <div className="d-flex">
+                    <div style={{ width: 20, height: 20 }}>{RETWEETS}</div>
+                    <p className="px-1">{tweet.retweets}</p>
+                </div>
+                <div className="d-flex">
+                    <div style={{ width: 20, height: 20 }}>{LIKES}</div>
+                    <p className="px-1">{tweet.likes}</p>
+                </div>
+                <div className="d-flex">
+                    <div style={{ width: 20, height: 20 }}>{SHARE}</div>
+                </div>
+            </div>
+        </div>
+    );
+}

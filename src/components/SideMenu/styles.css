@@ -1,14 +1,7 @@
-.logo-icon{
-    width: 25px;
-    height: 25px;
+.side-menu {
+  width: 25%;
 }
-
-.menu-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-  }
-  
-
-  
-  
+.logo-icon {
+  width: 28px;
+  height: 28px;
+}
